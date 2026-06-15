@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import deliveryboy from "../assets/deliberyboy.png";
+import deliveryboy from "../assets/deliveryboy.png";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({
