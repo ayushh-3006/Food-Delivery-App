@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import api from "../config/api.config.js";
 const Register = () => {
   const [registerData, setRegisterData] = useState({
-    fullname: "",
+    fullName: "",
     email: "",
     phone: "",
     password: "",
@@ -18,19 +19,24 @@ const Register = () => {
     e.preventDefault();
 
     console.log("Register data submitted:", registerData);
-
     const payload = {
-      fullname: registerData.fullname.trim(),
+      fullName: registerData.fullName.trim(),
       email: registerData.email.toLowerCase(),
+      phone: registerData.phone,
       password: registerData.password,
-      accountType: registerData.accountType,
+      gender: registerData.gender,
+      dob: registerData.dob,
     };
+    try {
+      const res = await api.post("/auth/register", payload);
+      alert(res.data.message);
+    } catch (error) {
+      console.log(res?.data?.message || error.message);
+    }
 
     try {
-      
     } catch (error) {
       console.log(error.message);
-      
     }
 
     // console.log("Payload:", payload);
@@ -40,9 +46,11 @@ const Register = () => {
     <div className="min-h-screen bg-cover bg-center bg-[url('/foodTable.webp')]">
       <div className="min-h-screen bg-linear-to-br from-black/70 via-black/55 to-orange-500/20">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 py-8 md:grid-cols-2 md:px-8 md:py-12 lg:px-10">
-          <div className="rounded
+          <div
+            className="rounded
           
-          -4xl border border-white/20 bg-white/90 p-6 shadow-2xl backdrop-blur md:p-8 lg:p-10">
+          -4xl border border-white/20 bg-white/90 p-6 shadow-2xl backdrop-blur md:p-8 lg:p-10"
+          >
             <div className="text-center">
               <div className="mb-3 inline-flex rounded-full bg-orange-100 px-3 py-1 text-sm font-semibold text-orange-600">
                 Join Cravings
@@ -56,8 +64,8 @@ const Register = () => {
               <input
                 type="text"
                 id="fullname"
-                name="fullname"
-                value={registerData.fullname}
+                name="fullName"
+                value={registerData.fullName}
                 onChange={handleChange}
                 className="w-full rounded-xl border border-gray-200 p-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
                 placeholder="Enter your full name"
@@ -81,6 +89,24 @@ const Register = () => {
                 onChange={handleChange}
                 className="w-full rounded-xl border border-gray-200 p-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
                 placeholder="Enter your phone number"
+              />
+
+              <select
+                name="gender"
+                value={registerData.gender}
+                onChange={handleChange}
+              >
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="other">other</option>
+              </select>
+
+              <input
+                type="date"
+                name="dob"
+                value={registerData.dob}
+                onChange={handleChange}
               />
 
               <input
