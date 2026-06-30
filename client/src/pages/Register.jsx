@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import api from "../config/api.config.js";
+import toast from "react-hot-toast";
 const Register = () => {
   const [registerData, setRegisterData] = useState({
     fullName: "",
@@ -14,11 +15,17 @@ const Register = () => {
     const { name, value } = e.target;
     setRegisterData((prevData) => ({ ...prevData, [name]: value }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     console.log("Register data submitted:", registerData);
+
+    // Validation
+    if (registerData.password !== registerData.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
     const payload = {
       fullName: registerData.fullName.trim(),
       email: registerData.email.toLowerCase(),
@@ -27,19 +34,32 @@ const Register = () => {
       gender: registerData.gender,
       dob: registerData.dob,
     };
+
     try {
       const res = await api.post("/auth/register", payload);
-      alert(res.data.message);
-    } catch (error) {
-      console.log(res?.data?.message || error.message);
-    }
 
-    try {
-    } catch (error) {
-      console.log(error.message);
-    }
+      // Success Toast
+      toast.success(res.data.message);
 
-    // console.log("Payload:", payload);
+      console.log(res.data);
+
+      // Optional: Clear form
+      setRegisterData({
+        fullName: "",
+        email: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+        gender: "",
+        dob: "",
+        accountType: "customer",
+      });
+    } catch (error) {
+      // Error Toast
+      toast.error(error?.response?.data?.message || error.message);
+
+      console.log(error?.response?.data?.message || error.message);
+    }
   };
 
   return (
