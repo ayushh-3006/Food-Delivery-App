@@ -3,10 +3,11 @@ import React, { useContext, useEffect, useState } from "react";
 const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setuser] = useState(
+  const [user, setUser] = useState(
      JSON.parse(sessionStorage.getItem("UserData")) || "",
   );
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(!!user);
+  
 
   useEffect(() => {
     // if (user) {
@@ -19,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     user,
-    setuser,
+    setUser,
     isLogin,
     setIsLogin,
   };

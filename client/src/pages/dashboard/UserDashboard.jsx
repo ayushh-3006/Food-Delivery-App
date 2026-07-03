@@ -123,29 +123,29 @@
 
 // export default UserDashboard;
 
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import React, { useState } from "react";
+import Sidebar from "../../components/UserDashboard/Sidebar";
+import Overview from "../../components/UserDashboard/Overview";
+import Orders from "../../components/UserDashboard/Orders";
+import Settings from "../../components/UserDashboard/Settings";
+import Wishlist from "../../components/UserDashboard/Wishlist";
 
 const UserDashboard = () => {
-  const { user } = useAuth();
-  console.log("User Data:",)
+  const [active, setActive] = useState("Overview");
+
   return (
     <>
-
-    <div className="">
-      <div>sidebar</div>
-      <div>content</div>
-    </div>
-      {/* <div>Welcome Back!! {user.fullName}</div>
-      <div>Welcome Back!! {user.email}</div>
-      <div>Welcome Back!! {user.phone}</div>
-      <div className="w-24 h-24 rounded-full overflow-hidden">
-        <img
-          src={user.photo}
-          alt=""
-          className="w-full h-full object-cover"
-        />
-      </div> */}
+      <div className="flex h-[92vh]">
+        <div className="w-1/6 border border-red-500 h-full">
+          <Sidebar active={active} setActive={setActive} />
+        </div>
+        <div className="w-5/6 border border-green-500 h-full">
+          {active === "Overview" && <Overview />}
+          {active === "Orders" && <Orders />}
+          {active === "Wishlist" && <Wishlist />}
+          {active === "Settings" && <Settings />}
+        </div>
+      </div>
     </>
   );
 };
