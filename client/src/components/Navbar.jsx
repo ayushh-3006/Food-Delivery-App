@@ -2,39 +2,41 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { AiOutlineLogout } from "react-icons/ai";
+import api from "../config/api.config.js";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { user, setUser, isLogin, setIsLogin } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    sessionStorage.removeItem("UserData");
-    setIsLogin(false);
-    setUser(false);
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      const res = await api.get("/auth/logout");
+      sessionStorage.removeItem("UserData");
+      setIsLogin(false);
+      setUser(false);
+      navigate("/");
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error(
+        error.response.status + " | " + error.response?.data?.message ||
+          error.message,
+      );
+    }
   };
+
   return (
     <>
-      <div className="bg-(--secondary) text-(--primary-text) p-3 flex justify-between">
-        <div className="cursor-pointer text-2xl">cravings</div>
+      <div className="bg-(--primary) text-lg text-(--primary-text) p-3 flex justify-between items-center">
+        <div>Cravings</div>
 
-        <div className="flex gap-4 float-end hover:text-(--accent)">
+        <div className="flex gap-4 items-center">
           <Link to={"/"} className="hover:underline">
             Home
           </Link>
-
-          {/* <Link to={"/login"} className="hover:underline ">
-            Login
+          <Link to={"/contact-us"} className="hover:underline">
+            Contact us
           </Link>
-
-          <Link to={"/register"} className="hover:underline">
-            Register
-          </Link> */}
-
-          <Link to={"/contactUs"} className="hover:underline">
-            ContactUs
-          </Link>
-
           {isLogin ? (
             <div className="border-s-2 flex justify-center items-center gap-4 px-4">
               <div className="w-8 h-8 rounded-full overflow-hidden">

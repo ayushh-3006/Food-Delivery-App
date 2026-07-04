@@ -13,22 +13,49 @@ const MenuItems = [
 const Sidebar = ({ active, setActive }) => {
   return (
     <>
-      <div className="p-3">
-        <div className="border-b-2 text-center text-xl">User Dashboard</div>
+     <div className="p-4 bg-white border border-zinc-200/60 rounded-2xl shadow-sm max-w-xs">
+      {/* Title Header with a modern, clean saffron accent line */}
+      <div className="pb-3 border-b border-zinc-100 text-center">
+        <h2 className="text-sm font-extrabold tracking-widest text-zinc-400 uppercase">
+          Account Panel
+        </h2>
+        <h1 className="text-xl font-black text-zinc-900 mt-0.5">
+          User Dashboard
+        </h1>
+      </div>
 
-        <div className="space-y-1 p-4 mt-4">
-          {MenuItems.map((item, idx) => (
+      {/* Navigation Links List */}
+      <div className="space-y-1.5 mt-5">
+        {MenuItems.map((item, idx) => {
+          const isActive = active === item.name;
+          
+          return (
             <button
               key={idx}
-              className={`flex gap-3 font-semibold items-center border border-transparent hover:border-(--primary) w-full p-3 rounded-lg ${active===item.name && "bg-(--secondary) text-(--primary-text)"}`}
               onClick={() => setActive(item.name)}
+              className={`
+                flex items-center gap-3 w-full p-3.5 rounded-xl font-bold text-sm
+                transition-all duration-200 outline-none group
+                ${isActive 
+                  ? "bg-orange-50 text-orange-600 shadow-sm shadow-orange-500/5" 
+                  : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50"
+                }
+              `}
             >
-              {item.icon}
-              <span>{item.name}</span>
+              {/* Icon component with smooth dynamic color state */}
+              <div className={`
+                text-lg transition-colors duration-200
+                ${isActive ? "text-orange-600" : "text-zinc-400 group-hover:text-zinc-700"}
+              `}>
+                {item.icon}
+              </div>
+
+              <span className="tracking-wide">{item.name}</span>
             </button>
-          ))}
-        </div>
+          );
+        })}
       </div>
+    </div>
     </>
   );
 };

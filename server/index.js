@@ -7,15 +7,19 @@ import AuthRouter from "./src/routers/auth.route.js";
 import PublicRouter from "./src/routers/public.route.js";
 import morgan from "morgan";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+import UserRouter from "./src/routers/user.route.js";
 
 const app = express();
 
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true}));
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(morgan("dev"));
 app.use("/auth", AuthRouter);
 app.use("/public", PublicRouter);
+app.use("/user", UserRouter);
 // test routes
 // app.get("/", (req, res) => {
 //   res.status(200).json({

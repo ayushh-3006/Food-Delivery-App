@@ -13,3 +13,7 @@
   --background: #3486c9;
   --text: #111827;
 }
+
+button{
+  cursor: pointer;
+}
