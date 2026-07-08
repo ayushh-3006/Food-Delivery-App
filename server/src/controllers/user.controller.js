@@ -4,7 +4,7 @@ import cloudinary from "../config/cloudinary.config.js";
 export const EditUserProfile = async (req, res, next) => {
   try {
     const { email, fullName, phone } = req.body;
-     const newPhoto = req.file;
+    const newPhoto = req.file;
 
     console.log("Req Body :", req.body);
     console.log("Req File :", req.file);
@@ -22,13 +22,13 @@ export const EditUserProfile = async (req, res, next) => {
       return next(error);
     }
 
-    
     if (newPhoto) {
+      existingUser?.photo?.publicId &&
+        (await cloudinary.uploader.destroy(existingUser.photo.publicId));
+
       const b64 = Buffer.from(newPhoto.buffer).toString("base64");
       const dataURI = `data:${newPhoto.mimetype};base64,${b64}`;
 
-
-      
       const result = await cloudinary.uploader.upload(dataURI, {
         folder: "Cravings678/profile",
         width: 500,
@@ -36,11 +36,14 @@ export const EditUserProfile = async (req, res, next) => {
         crop: "fill",
       });
 
+      if (!existingUser.photo) {
+        existingUser.photo = { url: "", publicId: "" };
+      }
+
       console.log(result);
-       existingUser.photo.url = result.secure_url;
+      existingUser.photo.url = result.secure_url;
       existingUser.photo.publicId = result.public_id;
     }
-
 
     existingUser.fullName = fullName;
     existingUser.phone = phone;
@@ -52,6 +55,6 @@ export const EditUserProfile = async (req, res, next) => {
       .json({ message: "User Updated Sucessfully", data: existingUser });
   } catch (error) {
     console.log(error.message);
-    next();
+    next(error);
   }
 };

@@ -65,10 +65,6 @@ export const LoginUser = async (req, res, next) => {
       return next(error);
     }
 
-    if (newPhoto) {
-      existingUser?.photo?.publicId &&
-        (await cloudinary.uploaded.destroy(existingUser.photo.publicId));
-    }
     const isVerified = await bcrypt.compare(password, existingUser.password);
     if (!isVerified) {
       const error = new Error("Incorrect Password");
