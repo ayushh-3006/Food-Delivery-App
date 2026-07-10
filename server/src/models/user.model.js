@@ -36,6 +36,13 @@ const UserSchema = mongoose.Schema(
         type: String,
       },
     },
+
+    userType: {
+      type: String,
+      enum: ["admin", "customer", "rider", "restaurant"],
+      required: true,
+      default: "customer",
+    },
   },
   {
     timestamps: true,
