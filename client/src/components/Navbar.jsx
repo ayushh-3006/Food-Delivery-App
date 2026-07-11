@@ -47,7 +47,15 @@ const Navbar = () => {
                 />
               </div>
               <Link
-                to={"/user/dashboard"}
+                to={
+                  user.userType === "admin"
+                    ? "/admin-dashboard"
+                    : user.userType === "rider"
+                    ? "/rider-dashboard"
+                    : user.userType === "restaurant"
+                    ? "/restaurant-dashboard"
+                    : "/customer-dashboard"
+                }
                 className="hover:underline hover:text-(--accent)"
               >
                 {user.fullName}

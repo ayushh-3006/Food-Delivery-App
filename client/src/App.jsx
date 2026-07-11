@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
@@ -10,28 +10,6 @@ import CustomerDashboard from "./pages/dashboard/CustomerDashboard";
 import RestaurantDashboard from "./pages/dashboard/RestaurantDashboard";
 import RiderDashboard from "./pages/dashboard/RiderDashboard";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
-import { useAuth } from "./context/AuthContext";
-
-const DashboardRedirect = () => {
-  const { isLogin, user } = useAuth();
-
-  if (!isLogin || !user) {
-    return <Navigate to="/login" replace />;
-  }
-
-  switch (user.userType) {
-    case "admin":
-      return <Navigate to="/admin-dashboard" replace />;
-    case "rider":
-      return <Navigate to="/rider-dashboard" replace />;
-    case "restaurant":
-      return <Navigate to="/restaurant-dashboard" replace />;
-    case "customer":
-    default:
-      return <Navigate to="/customer-dashboard" replace />;
-  }
-};
-
 const App = () => {
   return (
     <>
@@ -52,8 +30,6 @@ const App = () => {
           />
           <Route path="/rider-dashboard" element={<RiderDashboard />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
-          <Route path="/user/dashboard" element={<DashboardRedirect />} />
-          <Route path="/User/dashboard" element={<DashboardRedirect />} />
         </Routes>
         <Footer />
       </BrowserRouter>

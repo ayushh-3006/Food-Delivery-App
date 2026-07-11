@@ -12,6 +12,16 @@
 
   --background: #3486c9;
   --text: #111827;
+
+  /* Custom Dashboard Theme Mappings */
+  --color-base-100: #ffffff;
+  --color-base-200: #f4f4f5;
+  --color-neutral: #1f2937;
+  --color-neutral-content: #ffffff;
+  --color-primary: #001BB7;
+  --color-primary-content: #ede100;
+  --color-secondary: #0046FF;
+  --color-secondary-content: #ffffff;
 }
 
 button{
