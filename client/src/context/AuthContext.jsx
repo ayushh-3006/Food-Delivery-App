@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
     setUser,
     isLogin,
     setIsLogin,
+    role: user?.userType || "",
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

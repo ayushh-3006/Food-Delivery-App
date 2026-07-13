@@ -56,7 +56,23 @@ const Login = () => {
       sessionStorage.setItem("UserData", JSON.stringify(res.data.data));
       setUser(res.data.data);
       setIsLogin(true);
-      navigate("/User/dashboard");
+
+      const user = res.data.data;
+      switch (user.userType) {
+        case "admin":
+          navigate("/admin-dashboard");
+          break;
+        case "rider":
+          navigate("/rider-dashboard");
+          break;
+        case "restaurant":
+          navigate("/restaurant-dashboard");
+          break;
+        case "customer":
+        default:
+          navigate("/customer-dashboard");
+          break;
+      }
 
       console.log(res.data);
 
