@@ -56,7 +56,7 @@ export const LoginUser = async (req, res, next) => {
       const error = new Error("All fields Required");
       error.statusCode = 400;
       return next(error);
-    }
+    }  
 
     const existingUser = await User.findOne({ email });
     if (!existingUser) {
