@@ -13,6 +13,7 @@ const Navbar = () => {
     try {
       const res = await api.get("/auth/logout");
       sessionStorage.removeItem("UserData");
+      sessionStorage.removeItem("cravingUser");
       setIsLogin(false);
       setUser(false);
       navigate("/");

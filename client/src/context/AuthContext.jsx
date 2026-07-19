@@ -4,18 +4,18 @@ const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(
-     JSON.parse(sessionStorage.getItem("UserData")) || "",
+     JSON.parse(sessionStorage.getItem("cravingUser")) || JSON.parse(sessionStorage.getItem("UserData")) || "",
   );
   const [isLogin, setIsLogin] = useState(!!user);
-  
+  const [role, setRole] = useState(user?.userType || "");
 
   useEffect(() => {
-    // if (user) {
-    //   setIsLogin(true);
-    // } else {
-    //   setIsLogin(false);
-    // }
     setIsLogin(!!user);
+    if (user) {
+      setRole(user.userType || "");
+    } else {
+      setRole("");
+    }
   }, [user]);
 
   const value = {
@@ -23,7 +23,8 @@ export const AuthProvider = ({ children }) => {
     setUser,
     isLogin,
     setIsLogin,
-    role: user?.userType || "",
+    role,
+    setRole,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

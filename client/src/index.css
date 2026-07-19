@@ -22,6 +22,8 @@
   --color-primary-content: #ede100;
   --color-secondary: #0046FF;
   --color-secondary-content: #ffffff;
+  --color-error: #DC2626;
+  --color-base-300: #e4e4e7;
 }
 
 button{
